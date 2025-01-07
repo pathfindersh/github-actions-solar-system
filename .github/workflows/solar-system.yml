@@ -8,9 +8,9 @@ on:
       - 'feature/*'
 
 env:
-    MONGO_URI: mongodb+srv://supercluster.d83jj.mongodb.net/superData
-    MONGO_USERNAME: superuser
-    MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+    MONGO_URI: mongodb+srv://supercluster.d83jj.mongodb.net/superData #added
+    MONGO_USERNAME: superuser #added
+    MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }} #added and secret is stored in secret place in github . 
     
 jobs:
     unit-testing:
@@ -32,6 +32,7 @@ jobs:
           run: npm test
           
         - name: Archive Test Result
+          if: always()      #added
           uses: actions/upload-artifact@v4
           with:
             name: Mocha-Test-Result
