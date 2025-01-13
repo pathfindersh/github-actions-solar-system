@@ -54,18 +54,21 @@ jobs:
           with:
             name: Code-Coverage-Result
             path: coverage
-            retention-days: 5 
+            retention-days: 5  
 
     docker:
       needs:
       - code-coverage
       - unit-testing
       permissions: #added
+        contents: read
         packages: write #added
       runs-on: ubuntu-latest
       
       steps:
         - uses: actions/checkout@v4
+          with:
+            token: '${{ secrets.GITHUB_TOKEN }}'
         - uses: docker/login-action@v2.2.0
           with:
             registry: ghcr.io
@@ -77,8 +80,9 @@ jobs:
             push: true
             tags: 'ghcr.io/${{ github.repository_owner }}/solar-system:${{ github.sha }}'
 
+
     dev-deploy:
-      # needs: docker
+      needs: docker
       runs-on: ubuntu-latest
       steps:
         - name: Checkout Repo
@@ -87,7 +91,7 @@ jobs:
         - name: Install kubectl CLI
           uses: azure/setup-kubectl@v3
           with:
-            version: 'v1.32.0'
+            version: 'v1.26.0'
 
         - name: Set Kubeconfig file
           uses: azure/k8s-set-context@v3
@@ -97,6 +101,6 @@ jobs:
 
         - name: Fetch Kubernetes Cluster Details
           run: |
-            kubectl version 
+            kubectl version -- short
             echo -----------------------------------------
-            kubectl get nodes 
+            kubectl get nodes
