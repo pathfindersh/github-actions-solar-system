@@ -84,6 +84,8 @@ jobs:
     dev-deploy:
       needs: docker
       runs-on: ubuntu-latest
+      environment:
+        name: development
       steps:
         - name: Checkout Repo
           uses: actions/checkout@v4
@@ -100,7 +102,4 @@ jobs:
             kubeconfig: ${{ secrets.KUBECONFIG }}
 
         - name: Fetch Kubernetes Cluster Details
-          run: |
-            kubectl version
-            echo -----------------------------------------
-            kubectl get nodes 
+          run: kubectl version --short -o yaml
