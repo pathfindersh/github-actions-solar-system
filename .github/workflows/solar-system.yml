@@ -103,4 +103,4 @@ jobs:
           run: |
             kubectl version
             echo -----------------------------------------
-            kubectl get nodes
+            kubectl get nodes 
