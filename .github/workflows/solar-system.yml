@@ -101,7 +101,7 @@ jobs:
             kubeconfig: ${{ secrets.KUBECONFIG }}
 
         - name: Fetch Kubernetes Cluster Details
-          run: kubectl version 
+          run: kubectl version
         
         - name: using  github env as variable 
           run: >
